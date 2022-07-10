@@ -1,6 +1,8 @@
+//7/9/2022
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GeneratorBehaviour : MonoBehaviour
 {
@@ -21,38 +23,131 @@ public class GeneratorBehaviour : MonoBehaviour
                                                        "Small Business", "Big Business","Paperwork","Witch","Library","Dungeon Crawler","Natural Disaster",
                                                        "Street Performer","Golf","Kaiju","Haircut","Battle Royale","Party","Coffee Shop","Psychological",
                                                        "Vampire"};
+
+    private List<string> Constraints = new List<string>() {"be on a mobile device", "be 3D", "be 2D", "be VR", "use controllers", "have animals", "be tabletop", "use a book",
+                                                           "be linear", "have multiple endings", "not be able to move", "focus on quality over quantity", 
+                                                           "focus on quantity over quality","have robots","not use weapons", "be non visual(text based)",
+                                                           "have no words or sounds","be playable only once","be played through mail","have stamina system",
+                                                           "have player classes","have different play styles","integrate music into gameplay","not use wasd or arrows to move",
+                                                           "have customizable characters","be turn based", "have jump scares","have math equations", "have no words", 
+                                                           "have no sounds"};
+
+    private Text Word1;
+    private Text Word2;
+    private Text MustText;
+    private Toggle KeepWord1;
+    private Toggle KeepWord2;
+
     // Start is called before the first frame update
     void Start()
     {
-        for(int i = 0; i < 10; i++)
-        {
-            GenerateBasicIdea();
-        }
+        Word1 = GameObject.Find("Word1").GetComponent<Text>();
+        Word2 = GameObject.Find("Word2").GetComponent<Text>();
+        MustText = GameObject.Find("Must Text").GetComponent<Text>();
+        KeepWord1 = GameObject.Find("KeepWord1").GetComponent<Toggle>();
+        KeepWord2 = GameObject.Find("KeepWord2").GetComponent<Toggle>();
+        GenerateBasicIdea();
+        GenerateConstraint();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-    }
-
-    public void GenerateBasicIdea()
-    {
-        string word1 = General[Random.Range(0, General.Count)];
-        string word2 = General[Random.Range(0, General.Count)];
-        while(word1.Equals(word2))
+        if(Input.GetKeyDown(KeyCode.R))
         {
-            word2 = General[Random.Range(0, General.Count)];
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            QuitTool();
         }
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void GenerateBasicIdea()
+    {
+        string word1Start = General[Random.Range(0, General.Count)];
+        string word2Start = General[Random.Range(0, General.Count)];
+        while(word1Start.Equals(word2Start))
+        {
+            word2Start = General[Random.Range(0, General.Count)];
+        }
+        if(!KeepWord1.isOn)
+        {
+            Word1.text = word1Start;
+        }
+        if(!KeepWord2.isOn)
+        {
+            Word2.text = word2Start;
+        }
+        AddHistory();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void GenerateConstraint()
+    {
+        string word = Constraints[Random.Range(0, Constraints.Count)];
+        while(word.Equals(MustText.text))
+        {
+            word = Constraints[Random.Range(0, Constraints.Count)];
+        }
+        MustText.text = word;
+        AddHistory();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void RemoveConstraint()
+    {
+        MustText.text = "";
+        AddHistory();
+    }
+    /// <summary>
+    /// 
+    /// </summary>
     public void AddNewWord()
     {
 
     }
 
-    private bool HasDuplicate()
+    /// <summary>
+    /// 
+    /// </summary>
+    public void RemoveWord()
     {
+
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    private bool HasWord()
+    {
+        //Implement Later
         return false;
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void AddHistory()
+    {
+
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void QuitTool()
+    {
+        Application.Quit();
+    }
+
 }
 
