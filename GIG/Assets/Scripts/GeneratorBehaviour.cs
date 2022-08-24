@@ -37,6 +37,7 @@ public class GeneratorBehaviour : MonoBehaviour
     private Text MustText;
     private Toggle KeepWord1;
     private Toggle KeepWord2;
+    private InputField NewWordField;
 
     // Start is called before the first frame update
     void Start()
@@ -46,6 +47,7 @@ public class GeneratorBehaviour : MonoBehaviour
         MustText = GameObject.Find("Must Text").GetComponent<Text>();
         KeepWord1 = GameObject.Find("KeepWord1").GetComponent<Toggle>();
         KeepWord2 = GameObject.Find("KeepWord2").GetComponent<Toggle>();
+        NewWordField = GameObject.Find("NextWordField").GetComponent<InputField>();
         GenerateBasicIdea();
         GenerateConstraint();
     }
@@ -53,13 +55,9 @@ public class GeneratorBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-        }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            QuitTool();
+            QuitTool(); 
         }
     }
 
@@ -112,7 +110,16 @@ public class GeneratorBehaviour : MonoBehaviour
     /// </summary>
     public void AddNewWord()
     {
-
+        //MAKE THIS PERMANENT BY ADDING PLAYERPREFS
+        if (!General.Contains(NewWordField.text))
+        {
+            General.Add(NewWordField.text);
+            NewWordField.text = "";
+        }
+        else
+        {
+            NewWordField.text = "DUPLICATE";
+        }
     }
 
     /// <summary>
@@ -120,17 +127,34 @@ public class GeneratorBehaviour : MonoBehaviour
     /// </summary>
     public void RemoveWord()
     {
-
+        //MAKE THIS PERMANENT BY ADDING PLAYERPREFS
+        if (General.Contains(NewWordField.text))
+        {
+            General.Remove(NewWordField.text);
+            NewWordField.text = "";
+        }
+        if (Constraints.Contains(NewWordField.text))
+        {
+            Constraints.Remove(NewWordField.text);
+            NewWordField.text = "";
+        }
+        //ELSE
     }
-
     /// <summary>
     /// 
     /// </summary>
-    /// <returns></returns>
-    private bool HasWord()
+    public void AddMustWord()
     {
-        //Implement Later
-        return false;
+        //MAKE THIS PERMANENT BY ADDING PLAYERPREFS
+        if (!Constraints.Contains(NewWordField.text))
+        {
+            Constraints.Add(NewWordField.text);
+            NewWordField.text = "";
+        }
+        else
+        {
+            NewWordField.text = "DUPLICATE";
+        }
     }
 
     /// <summary>
