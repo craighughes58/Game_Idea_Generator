@@ -80,7 +80,6 @@ public class GeneratorBehaviour : MonoBehaviour
         {
             Word2.text = word2Start;
         }
-        AddHistory();
     }
 
     /// <summary>
@@ -94,7 +93,6 @@ public class GeneratorBehaviour : MonoBehaviour
             word = Constraints[Random.Range(0, Constraints.Count)];
         }
         MustText.text = word;
-        AddHistory();
     }
 
     /// <summary>
@@ -103,7 +101,6 @@ public class GeneratorBehaviour : MonoBehaviour
     public void RemoveConstraint()
     {
         MustText.text = "";
-        AddHistory();
     }
     /// <summary>
     /// 
@@ -155,14 +152,6 @@ public class GeneratorBehaviour : MonoBehaviour
         {
             NewWordField.text = "DUPLICATE";
         }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    private void AddHistory()
-    {
-
     }
 
     /// <summary>
